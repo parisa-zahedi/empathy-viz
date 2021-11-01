@@ -115,11 +115,22 @@ shinyServer(function(input, output) {
     if (input$Click.Counter>0 & input$Click.Counter<=nrow(Qlist))  
       return(
         list(
-          h5(textOutput("question")),
+          strong(textOutput("question")),
           radioMatrixInput(inputId = "rmi01", rowIDs = rows$rowID, 
                            rowLLabels = rows$rowNames,
                            choices = Columns$columnNames
+          ),
+          strong("Stel dat het een meisje is die je verder niet kent. Wat voel je en doe je dan?"),
+          radioMatrixInput(inputId = "rmi02", rowIDs = rows$rowID, 
+                           rowLLabels = rows$rowNames,
+                           choices = Columns$columnNames
+          ),
+          strong("Of een meisje die je niet graag mag. Wat voel je en doe je dan?"),
+          radioMatrixInput(inputId = "rmi03", rowIDs = rows$rowID, 
+                           rowLLabels = rows$rowNames,
+                           choices = Columns$columnNames
           )
+          
         )
       )
     
