@@ -6,16 +6,22 @@ library(shinyRadioMatrix)
 Qlist <- read.csv("Qlist.csv")
 
 # RadioMatrix Inputs- rows and columns
-  columnNames <- c("helemaal niet van toepassing", "een beetje van toepassing",
-                   "redelijk goed van toepassing", "sterk van toepassing", 
-                   "heel sterk van toepassing")
-  Columns = data.frame(columnNames)
-  
-  rowID <- c(1, 2, 3, 4, 5)
-  rowNames <- c("Ik voel pijn", "Ik moet er om lachen", "Ik raak van slag",
-                "Ik vind het naar voor haar", "Ik wil haar helpen")
-  rows = data.frame(rowID, rowNames)
-  
+columnNames <- c("helemaal niet", "een beetje",
+                 "redelijk goed", "sterk",
+                 "heel sterk")
+Columns = data.frame(columnNames)
+
+
+rowID <- c(1, 2, 3, 4, 5)
+rowNames <- list(Q1 = c("Ik voel pijn", "Ik moet er om lachen", "Ik raak van slag", "Ik vind het naar voor haar", "Ik wil haar helpen"),
+                 Q2 = c("Ik voel me blij","Ik heb er de pest in", "Ik raak van slag", "Ik vind het fijn voor haar", "Ik wil haar feliciteren"),
+                 Q3 = c("Ik voel me verdrietig", "Ik moet er om lachen", "Ik raak van slag", "Ik vind het naar voor haar", "Ik wil haar troosten"),
+                 Q4 = c("Ik voel pijn", "Ik moet er om lachen", "Ik raak van slag", "Ik vind het naar voor hem", "Ik wil haar helpen"),
+                 Q5 = c("Ik voel me blij","Ik heb er de pest in", "Ik raak van slag", "Ik vind het fijn voor hemr", "Ik wil haar feliciteren"),
+                 Q6 = c("Ik voel me verdrietig", "Ik moet er om lachen", "Ik raak van slag", "Ik vind het naar voor hem", "Ik wil haar troosten"))
+
+rows = data.frame(rowID, rowNames)
+
 
 
 shinyServer(function(input, output) {
@@ -53,8 +59,8 @@ shinyServer(function(input, output) {
       return(
         list(
           verticalLayout(
-            strong("Survey"),
-            p(style="text-align: justify;",
+            
+            strong(p(style="text-align: justify;",
               "We maken het allemaal wel eens mee dat we zien dat iemand zich pijn doet,
                          verdrietig is of juist heel blij is. Als we zien dat iemand zich bijvoorbeeld snijdt,
                          het hoofd stoot of struikelt op straat dan weten we dat dat pijn doet maar voelen dat
@@ -63,50 +69,50 @@ shinyServer(function(input, output) {
                          Het meeleven of meevoelen met de emoties van anderen doen we soms ongemerkt en met
                          de ene persoon meer dan met de ander. Wat wij graag van jou willen weten is wat jij
                          voelt en doet wanneer je ziet dat iemand verdrietig is, pijn heeft of juist blij is.",
-              style = "font-family: 'times'; font-si18pt"),
-            p(style="text-align: justify;",
+              style = "font-family: 'times'; font-si18pt")),
+            strong(p(style="text-align: justify;",
               "de volgende bladzijde staan een aantal uitspraken die gaan over het meevoelen met
                         anderen in verschillende situaties. Het kan natuurlijk zijn dat je nog nooit zo'n
                         situatie hebt meegemaakt. Probeer je dan voor te stellen hoe dat zou zijn,
                         wat je zou voelen en willen doen.",
               style = "font-family: 'times'; font-si18pt"
-            ),
-            p(style="text-align: justify;",
+            )),
+            strong(p(style="text-align: justify;",
               "Er zijn geen goede of foute antwoorden. Het gaat om jouw eigen gevoel.",
               style = "font-family: 'times'; font-si18pt"
               
-            ),
-            p(style="text-align: justify;",
+            )),
+            strong(p(style="text-align: justify;",
               "Je antwoord geef je door het cijfer te omcirkelen wat het meest op jou van toepassing is:",
               style = "font-family: 'times'; font-si18pt"
               
-            ),
-            p(style="text-align: justify;",
+            )),
+            strong(p(style="text-align: justify;",
               "1= helemaal niet van toepassing",
               style = "font-family: 'times'; font-si18pt"
               
-            ),
-            p(style="text-align: justify;",
+            )),
+            strong(p(style="text-align: justify;",
               "2= een beetje van toepassing",
               style = "font-family: 'times'; font-si18pt"
               
-            ),
-            p(style="text-align: justify;",
+            )),
+            strong(p(style="text-align: justify;",
               "3= redelijk goed van toepassing",
               style = "font-family: 'times'; font-si18pt"
               
-            ),
-            p(style="text-align: justify;",
+            )),
+            strong(p(style="text-align: justify;",
               "4= sterk van toepassing",
               style = "font-family: 'times'; font-si18pt"
               
-            ),
-            p(style="text-align: justify;",
+            )),
+            strong(p(style="text-align: justify;",
               "5= heel sterk van toepassing",
               style = "font-family: 'times'; font-si18pt"
               
             )
-          )
+          ))
         )
       )
     # End Introduction
@@ -116,18 +122,19 @@ shinyServer(function(input, output) {
       return(
         list(
           strong(textOutput("question")),
-          radioMatrixInput(inputId = "rmi01", rowIDs = rows$rowID, 
-                           rowLLabels = rows$rowNames,
+          radioMatrixInput(inputId = "rmi01", rowIDs = rows$rowID,
+                           rowLLabels = rows[,input$Click.Counter+1],
                            choices = Columns$columnNames
           ),
+          
           strong("Stel dat het een meisje is die je verder niet kent. Wat voel je en doe je dan?"),
-          radioMatrixInput(inputId = "rmi02", rowIDs = rows$rowID, 
-                           rowLLabels = rows$rowNames,
+          radioMatrixInput(inputId = "rmi02", rowIDs = rows$rowID,
+                           rowLLabels = rows[,input$Click.Counter+1],
                            choices = Columns$columnNames
           ),
           strong("Of een meisje die je niet graag mag. Wat voel je en doe je dan?"),
-          radioMatrixInput(inputId = "rmi03", rowIDs = rows$rowID, 
-                           rowLLabels = rows$rowNames,
+          radioMatrixInput(inputId = "rmi03", rowIDs = rows$rowID,
+                           rowLLabels = rows[,input$Click.Counter+1],
                            choices = Columns$columnNames
           )
           
