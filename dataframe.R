@@ -1,5 +1,5 @@
 
-# Build the structure of the RadioMatrixFrame 
+# Build the structure of the Radio-MatrixFrame 
 
 RMF_func <- function(){
   rowID <- c(1, 2, 3, 4, 5)
