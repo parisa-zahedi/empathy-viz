@@ -2,7 +2,7 @@ library(shiny)
 library(shinyRadioMatrix)
 
 
-# Read the survey questions
+# Read the survey_questions
 Qlist <- read.csv("data/Qlist.csv")
 
 # Read the radioMatrix rows and columns
